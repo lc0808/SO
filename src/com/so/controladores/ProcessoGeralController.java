@@ -1,4 +1,5 @@
 package com.so.controladores;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,46 +44,49 @@ public class ProcessoGeralController {
                 }
 
             }
-            else if (processosInterrompidos.isEmpty()) {
-                System.out.println(COR_ROXA + "→ TODOS OS PROCESSOS FORAM FINZALIADOS COM SUCESSO!" + RESETA_COR);
-                break;
-            }
+//            else if (processosInterrompidos.isEmpty()) {
+//                System.out.println(COR_ROXA + "→ TODOS OS PROCESSOS FORAM FINZALIADOS COM SUCESSO!" + RESETA_COR);
+//                break;
+//            }
             else {
                 execInterrompida(interromperPorPrioridade());
             }
 
-            System.out.println(COR_ROXA + "\n\n - - - - - - - - RELATÓRIO - - - - - - - - " + RESETA_COR);
+//            System.out.println(COR_ROXA + "\n\n - - - - - - - - RELATÓRIO - - - - - - - - " + RESETA_COR);
+//
+//            System.out.print(COR_AMARELO + "Processos na fila de execução: " + RESETA_COR);
+//            for (Processo processo : processosProntosParaExecucao) {
+//                System.out.print(processo.getId() + "  ");
+//
+//            }
+//
+//            System.out.println("\nTOTAL: " + processosProntosParaExecucao.size());
+//
+//            System.out.print(COR_VERDE + "\nProcessos finalizados: " + RESETA_COR);
+//
+//            for (Processo processo : processosFinalizados) {
+//                System.out.print(processo.getId() + "  ");
+//            }
+//
+//            System.out.println("\nTotal: " + processosFinalizados.size());
+//
+//            System.out.print(COR_VERMELHA + "\nInterrupções: \n" + RESETA_COR);
+//
+//            for (Processo processo : processosInterrompidos) {
+//                System.out.println("Id do processo: " + processo.getId() + "   Motivo: " + processo.getException() );
+//            }
+//
+//            System.out.println("Total: " + processosInterrompidos.size());
+//
+//            System.out.println(COR_ROXA + " - - - - - - - - - - - - - - - - - - - - - " + RESETA_COR);
 
-            System.out.print(COR_AMARELO + "Processos na fila de execução: " + RESETA_COR);
-            for (Processo processo : processosProntosParaExecucao) {
-                System.out.print(processo.getId() + "  ");
-
-            }
-
-            System.out.println("\nTOTAL: " + processosProntosParaExecucao.size());
-
-            System.out.print(COR_VERDE + "\nProcessos finalizados: " + RESETA_COR);
-
-            for (Processo processo : processosFinalizados) {
-                System.out.print(processo.getId() + "  ");
-            }
-
-            System.out.println("\nTotal: " + processosFinalizados.size());
-
-            System.out.print(COR_VERMELHA + "\nInterrupções: \n" + RESETA_COR);
-
-            for (Processo processo : processosInterrompidos) {
-                System.out.println("Id do processo: " + processo.getId() + "   Motivo: " + processo.getException() );
-            }
-
-            System.out.println("Total: " + processosInterrompidos.size());
-
-            System.out.println(COR_ROXA + " - - - - - - - - - - - - - - - - - - - - - " + RESETA_COR);
-
-            System.out.println(COR_ROXA + "→ Prosseguir para próxima etapa?" + RESETA_COR + "\n0- Encerrar  1- Prosseguir" + RESETA_COR );
-            escolha = input.nextInt();
-            System.out.println("\n\n\n");
-        } while(escolha != 0);
+//            System.out.println(COR_ROXA + "→ Prosseguir para próxima etapa?" + RESETA_COR + "\n0- Encerrar  1- Prosseguir" + RESETA_COR );
+//            escolha = input.nextInt();
+//            System.out.println("\n\n\n");
+            System.out.println("\n");
+        } while(!processosProntosParaExecucao.isEmpty() || !processosInterrompidos.isEmpty());
+        System.out.println(COR_ROXA + "→ TODOS OS PROCESSOS FORAM FINALIZADOS COM SUCESSO!" + RESETA_COR);
+//        while(escolha != 0);
     }
 
     private void inicializarProcessos() {
@@ -103,6 +107,8 @@ public class ProcessoGeralController {
     private void execProcesso(Processo processo) {
         processosProntosParaExecucao.remove(processo);
         processosEmExecucao.add(processo);
+        System.out.println(COR_ROXA + " - - - - - PROCESSO EM EXECUÇÃO - - - - - -" + RESETA_COR);
+        System.out.println(COR_ROXA + "ID DO PROCESSO: " + processo.getId() + RESETA_COR);
         ProcessoSimplesController processoUnicoController = new ProcessoSimplesController(processo);
         processoUnicoController.exec();
         try {
@@ -113,10 +119,12 @@ public class ProcessoGeralController {
         if (processoUnicoController.hasException()) {
             Processo processoWithException = processoUnicoController.getProcess();
             processosEmExecucao.remove(processo);
+//            System.out.println(COR_ROXA + " - - - - - - - - - - - - - - - - - - - - - " + RESETA_COR);
             processosInterrompidos.add(processoWithException);
         }else{
             processosEmExecucao.remove(processo);
             processosFinalizados.add(processo);
+            System.out.println(COR_VERDE + "- - - PROCESSO FINALIZADO COM SUCESSO - - -" + RESETA_COR);
         }
     }
 

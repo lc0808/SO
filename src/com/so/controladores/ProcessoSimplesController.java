@@ -32,10 +32,9 @@ public class ProcessoSimplesController extends Thread {
                 throw new Exception();
             }
         } catch (Exception e) {
-            System.out.println(COR_VERMELHA + "- - - - - PROCESSO INTERROMPIDO - - - - -" + RESETA_COR);
-            System.out.println(COR_VERMELHA + "ID DO PROCESSO: " + RESETA_COR + processo.getId());
+            System.out.println(COR_VERMELHA + " - - - - - PROCESSO INTERROMPIDO - - - - -" + RESETA_COR);
             System.out.println(COR_VERMELHA + "Motivo: " + RESETA_COR + processo.getException());
-            System.out.println(COR_VERMELHA + "- - - - - - - - - - - - - - - - - - - - -" + RESETA_COR);
+            System.out.println(COR_VERMELHA + " - - - - - - - - - - - - - - - - - - - - -" + RESETA_COR);
             hasException = true;
         }
     }
